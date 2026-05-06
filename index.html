@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daisy Jia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --bg-soft:#eef3f8;
+      --panel:rgba(255,255,255,.88);
+      --panel-strong:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:rgba(15,23,42,.08);
+      --blue:#2563eb;
+      --blue-soft:rgba(37,99,235,.08);
+      --shadow:0 10px 30px rgba(15,23,42,.06);
+      --radius:22px;
+      --max:1120px;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0b1220;
+        --bg-soft:#111827;
+        --panel:rgba(15,23,42,.72);
+        --panel-strong:#111827;
+        --text:#e5edf7;
+        --muted:#94a3b8;
+        --line:rgba(148,163,184,.18);
+        --blue:#6ea8ff;
+        --blue-soft:rgba(110,168,255,.12);
+        --shadow:0 12px 36px rgba(0,0,0,.24);
+      }
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Inter','PingFang SC','Microsoft YaHei',sans-serif;
+      background:linear-gradient(180deg,var(--bg) 0%, var(--bg-soft) 100%);
+      color:var(--text);
+      line-height:1.7;
+    }
+    a{text-decoration:none;color:inherit}
+    img{display:block;max-width:100%}
+    .container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+    .nav{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(14px);
+      background:color-mix(in srgb, var(--bg) 82%, transparent);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      max-width:var(--max);margin:0 auto;height:74px;padding:0 24px;
+      display:flex;align-items:center;justify-content:space-between;gap:20px;
+    }
+    .brand{font-size:18px;font-weight:700;letter-spacing:-.03em}
+    .nav-links{display:flex;align-items:center;gap:22px;font-size:14px;color:var(--muted)}
+    .nav-links a:hover{color:var(--text)}
+    .lang-toggle{
+      display:flex;gap:4px;padding:5px;border:1.5px solid var(--text);
+      border-radius:999px;background:var(--panel-strong);
+      box-shadow:0 4px 14px rgba(15,23,42,.08);
+    }
+    .lang-toggle button{
+      border:none;background:transparent;color:var(--text);font:inherit;font-size:13px;font-weight:700;
+      padding:9px 18px;border-radius:999px;cursor:pointer;letter-spacing:.02em;
+      transition:.2s ease;
+    }
+    .lang-toggle button:hover{color:var(--blue)}
+    .lang-toggle button.active{background:var(--text);color:var(--panel-strong)}
+    .lang-toggle button.active:hover{color:var(--panel-strong)}
+    @media (prefers-color-scheme: dark){
+      .lang-toggle{border-color:#e5edf7}
+      .lang-toggle button{color:#e5edf7}
+      .lang-toggle button.active{background:#e5edf7;color:#0f172a}
+      .lang-toggle button.active:hover{color:#0f172a}
+    }
+
+    .hero{
+      min-height:calc(100vh - 74px);
+      padding:48px 0;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .hero-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%}
+    .hero-avatar{
+      width:136px;height:136px;border-radius:50%;padding:6px;
+      background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.55));
+      box-shadow:var(--shadow);border:1px solid var(--line);margin-bottom:24px;
+    }
+    @media (prefers-color-scheme: dark){
+      .hero-avatar{background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03))}
+    }
+    .hero-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 14px;margin-bottom:20px;
+      border-radius:999px;background:var(--blue-soft);color:var(--blue);font-size:13px;font-weight:600;
+      border:1px solid color-mix(in srgb, var(--blue) 14%, transparent);
+    }
+    .eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor}
+    h1{font-size:clamp(40px,6vw,64px);line-height:1.02;letter-spacing:-.05em;font-weight:800;margin-bottom:14px}
+    .hero-sub{display:block;color:var(--text)}
+    .hero-copy{max-width:760px;margin:0 auto 24px;font-size:18px;color:var(--muted)}
+    .hero-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:900px;margin:0 auto 28px}
+    .tag{
+      padding:10px 14px;border-radius:999px;border:1px solid var(--line);
+      background:var(--panel);font-size:13px;color:var(--muted);
+    }
+    .hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+    .btn{
+      min-height:48px;padding:0 18px;border-radius:999px;border:1px solid var(--line);
+      display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;transition:.2s ease;
+      background:var(--panel-strong);text-align:center;line-height:1;
+    }
+    .btn-primary{background:var(--text);color:var(--panel-strong);border-color:transparent}
+    .btn-secondary{color:var(--text)}
+    .btn:hover{transform:translateY(-1px)}
+    @media (prefers-color-scheme: dark){
+      .btn-primary{background:#e5edf7;color:#0f172a}
+    }
+
+    section{padding:36px 0 84px}
+    .section-head{text-align:center;margin-bottom:28px}
+    .section-kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+    .section-title{font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.04em;font-weight:800}
+    .section-line{width:44px;height:4px;border-radius:999px;background:var(--blue);margin:14px auto 0}
+    .section-desc{max-width:760px;margin:16px auto 0;font-size:16px;color:var(--muted)}
+
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .card,.timeline-item,.metric,.contact{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .card{padding:24px;text-align:center}
+    .card h3{font-size:20px;line-height:1.3;margin-bottom:10px}
+    .card p{font-size:15px;color:var(--muted)}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+    .pill{padding:7px 10px;border-radius:999px;background:var(--bg-soft);border:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+    .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .metric{padding:24px;text-align:center}
+    .metric strong{display:block;font-size:34px;line-height:1;font-weight:800;letter-spacing:-.04em;margin-bottom:10px}
+    .metric span{display:block;font-size:14px;color:var(--text)}
+    .metric small{display:block;margin-top:10px;font-size:12px;color:var(--muted)}
+
+    .timeline{display:grid;gap:16px}
+    .timeline-item{padding:26px;display:grid;grid-template-columns:1fr;gap:12px;justify-items:center;text-align:center;max-width:860px;margin:0 auto}
+    .timeline-date{font-size:12px;font-weight:700;color:var(--muted);padding-top:0}
+    .timeline-item h3{font-size:22px;line-height:1.2;margin-bottom:6px}
+    .company{font-size:14px;color:var(--muted);margin-bottom:12px}
+    .timeline-item ul{padding-left:0;color:var(--muted);display:grid;gap:8px;justify-items:center}
+    .timeline-item li{margin-bottom:0;max-width:620px;text-align:left;width:100%}
+
+    .project-card{overflow:hidden;padding:0}
+    .project-top{padding:22px 22px 0;text-align:center}
+    .project-badge{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue);font-size:12px;font-weight:600;margin-bottom:14px}
+    .project-body{padding:0 22px 22px;text-align:center}
+
+    .skills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+    .skills span{padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:13px;color:var(--muted)}
+
+    .contact{padding:34px;text-align:center}
+    .contact p{max-width:760px;margin:14px auto 24px;color:var(--muted)}
+    .contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .contact-box{padding:18px;border-radius:18px;border:1px solid var(--line);background:var(--panel-strong);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:96px;color:var(--text)}
+    .contact-box small{display:block;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:8px}
+    .contact-box span{display:block;font-size:14px;line-height:1.5;word-break:break-word;color:var(--text);font-weight:500;opacity:1}
+
+    footer{padding:26px 0 42px;text-align:center;font-size:13px;color:var(--muted)}
+
+    [data-lang='en']{display:none}
+    body.lang-en [data-lang='zh']{display:none !important}
+    body.lang-en [data-lang='en']{display:block !important}
+    body:not(.lang-en) [data-lang='zh']{display:block}
+    body:not(.lang-en) [data-lang='en']{display:none !important}
+    body.lang-en .hero-tags [data-lang='en'],
+    body.lang-en .nav-links a[data-lang='en'],
+    body.lang-en .pill-row .pill[data-lang='en'],
+    body.lang-en .skills span[data-lang='en']{display:inline-flex !important}
+    body:not(.lang-en) .hero-tags [data-lang='zh'],
+    body:not(.lang-en) .nav-links a[data-lang='zh'],
+    body:not(.lang-en) .pill-row .pill[data-lang='zh'],
+    body:not(.lang-en) .skills span[data-lang='zh']{display:inline-flex !important}
+
+    @media (max-width: 980px){
+      .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width: 768px){
+      .container{padding:0 16px}
+      .nav-inner{height:auto;padding:14px 16px;flex-direction:column;align-items:center;gap:14px}
+      .nav-links{gap:16px;flex-wrap:wrap;justify-content:center;order:2}
+      .lang-toggle{order:1}
+      .hero{min-height:auto;padding:56px 0 36px}
+      .hero-copy{font-size:16px}
+      section{padding:28px 0 64px}
+      .grid-2,.grid-3,.contact-grid{grid-template-columns:1fr}
+      .timeline-item{grid-template-columns:1fr;gap:10px;padding:22px 18px}
+      .timeline-date{text-align:center}
+      .timeline-item li{text-align:left}
+    }
+    @media (max-width: 480px){
+      h1{font-size:34px}
+      .hero-actions{flex-direction:column}
+      .btn{width:100%}
+      .card,.metric,.timeline-item,.contact{padding:20px}
+      .project-top{padding:18px 18px 0}
+      .project-body{padding:0 18px 18px}
+      .metrics{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">Daisy Jia</div>
+      <div class="nav-links">
+        <a href="#top" data-lang="zh">首页</a>
+        <a href="#top" data-lang="en">Home</a>
+        <a href="#strength" data-lang="zh">能力</a>
+        <a href="#strength" data-lang="en">Strengths</a>
+        <a href="#projects" data-lang="zh">项目</a>
+        <a href="#projects" data-lang="en">Projects</a>
+        <a href="#education" data-lang="zh">教育</a>
+        <a href="#education" data-lang="en">Education</a>
+        <a href="#experience" data-lang="zh">经历</a>
+        <a href="#experience" data-lang="en">Experience</a>
+        <a href="#contact" data-lang="zh">联系</a>
+        <a href="#contact" data-lang="en">Contact</a>
+      </div>
+      <div class="lang-toggle">
+        <button data-switch="zh">中文</button>
+        <button class="active" data-switch="en">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div class="hero-avatar">
+          <img src="avatar.png" alt="Daisy Jia">
+        </div>
+        <div class="eyebrow" data-lang="zh">🚀 目前就职于 Trip.com · Open to AI Product / Product Ops / Growth</div>
+        <div class="eyebrow" data-lang="en">🚀 Currently at Trip.com · Open to AI Product / Product Ops / Growth</div>
+
+        <h1 data-lang="zh">你好，我是 Daisy。<span class="hero-sub">Let’s build something AI-conic together.</span></h1>
+        <h1 data-lang="en">Hi, I'm Daisy.<span class="hero-sub">Let's build something AI-conic together.</span></h1>
+
+        <p class="hero-copy" data-lang="zh">我有商科与 IT 交叉背景，长期做增长优化、用户路径和 AI 项目落地。希望继续在快节奏团队里，把 AI 做成真正被用户使用的产品与 workflow。</p>
+        <p class="hero-copy" data-lang="en">I combine business and IT training with hands-on experience in growth, user journeys, and AI execution. I want to help build AI products and workflows that people actually use.</p>
+
+        <div class="hero-tags">
+          <span class="tag" data-lang="zh">🤖 AI Product Execution</span>
+          <span class="tag" data-lang="en">🤖 AI Product Execution</span>
+          <span class="tag" data-lang="zh">⚙️ Workflow Automation</span>
+          <span class="tag" data-lang="en">⚙️ Workflow Automation</span>
+          <span class="tag" data-lang="zh">📈 User Journey / Activation</span>
+          <span class="tag" data-lang="en">📈 User Journey / Activation</span>
+          <span class="tag" data-lang="zh">🧪 Experimentation / Iteration</span>
+          <span class="tag" data-lang="en">🧪 Experimentation / Iteration</span>
+          <span class="tag" data-lang="zh">🌍 Global Team Ready</span>
+          <span class="tag" data-lang="en">🌍 Global Team Ready</span>
+          <span class="tag" data-lang="zh">✨ Emoji Friendly</span>
+          <span class="tag" data-lang="en">✨ Emoji Friendly</span>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projects" data-lang="zh">查看项目</a>
+          <a class="btn btn-primary" href="#projects" data-lang="en">View Projects</a>
+          <a class="btn btn-secondary" href="#contact" data-lang="zh">联系我</a>
+          <a class="btn btn-secondary" href="#contact" data-lang="en">Contact</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="strength">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">✨ Strengths</div>
+          <h2 class="section-title" data-lang="zh">我适合 AI 产品团队的原因</h2>
+          <h2 class="section-title" data-lang="en">Why I fit AI product teams</h2>
+          <div class="section-line"></div>
+          <p class="section-desc" data-lang="zh">我擅长把模糊方向拆成可执行动作，再用数据和反馈把它迭代成更好的用户体验。</p>
+          <p class="section-desc" data-lang="en">I’m good at turning ambiguous direction into executable work, then iterating it with data and user feedback.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3 data-lang="zh">用户入口和增长视角</h3>
+            <h3 data-lang="en">Strong entry-point and growth sense</h3>
+            <p data-lang="zh">长期做站内入口、资源位和转化路径，对用户先看到什么、在哪里流失、怎么提升激活和转化有直觉也有方法。</p>
+            <p data-lang="en">I’ve spent years working on entry points, placements, and conversion paths, which gives me a strong instinct for activation and drop-off moments.</p>
+            <div class="pill-row">
+              <span class="pill">CTR / CVR / ROI</span>
+              <span class="pill">Activation</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3 data-lang="zh">真实的 AI 项目落地经验</h3>
+            <h3 data-lang="en">Real AI execution experience</h3>
+            <p data-lang="zh">参与过 AI 数字人直播项目，推进内容供给、流程工具化和结果验证。对 AI 的理解更偏“如何持续被用户使用”。</p>
+            <p data-lang="en">I’ve worked on an AI digital-human rollout across content supply, workflow tooling, and outcome validation, with a focus on sustained usage.</p>
+            <div class="pill-row">
+              <span class="pill">+30% efficiency</span>
+              <span class="pill">Use-case mindset</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3 data-lang="zh">实验和迭代能力</h3>
+            <h3 data-lang="en">Experimentation and iteration</h3>
+            <p data-lang="zh">我习惯通过 A/B Testing、漏斗和行为数据去判断问题，不靠拍脑袋。适合快节奏、要持续验证的产品环境。</p>
+            <p data-lang="en">I rely on A/B testing, funnel analysis, and behavior data instead of intuition alone. That fits fast product cycles well.</p>
+            <div class="pill-row">
+              <span class="pill">Experimentation</span>
+              <span class="pill">Funnel analysis</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3 data-lang="zh">国际化团队协作</h3>
+            <h3 data-lang="en">Global team readiness</h3>
+            <p data-lang="zh">有海外学习和跨境业务背景，英语工作沟通顺畅，也适应国际化团队的节奏、表达和反馈方式。</p>
+            <p data-lang="en">With overseas study and cross-border business experience, I’m comfortable working in English and collaborating in global teams.</p>
+            <div class="pill-row">
+              <span class="pill">English-first ready</span>
+              <span class="pill">Global collaboration</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">📊 Impact</div>
+          <h2 class="section-title" data-lang="zh">关键结果</h2>
+          <h2 class="section-title" data-lang="en">Selected outcomes</h2>
+          <div class="section-line"></div>
+          <p class="section-desc" data-lang="zh">这些结果能说明我不是只做执行，而是能把动作和结果连起来。</p>
+          <p class="section-desc" data-lang="en">These numbers show that I connect execution with measurable outcomes.</p>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <strong>+23%</strong>
+            <span data-lang="zh">活动页 CVR 提升</span>
+            <span data-lang="en">Campaign-page CVR lift</span>
+            <small data-lang="zh">跨境电商平台</small>
+            <small data-lang="en">Cross-border e-commerce</small>
+          </div>
+          <div class="metric">
+            <strong>+60%</strong>
+            <span data-lang="zh">季度直播产量提升</span>
+            <span data-lang="en">Quarterly livestream output growth</span>
+            <small data-lang="zh">在线旅行平台</small>
+            <small data-lang="en">Online travel platform</small>
+          </div>
+          <div class="metric">
+            <strong>+15%</strong>
+            <span data-lang="zh">弹窗转化率提升</span>
+            <span data-lang="en">Pop-up conversion uplift</span>
+            <small data-lang="zh">在线旅行平台</small>
+            <small data-lang="en">Online travel platform</small>
+          </div>
+          <div class="metric">
+            <strong>105%</strong>
+            <span data-lang="zh">整体活动达成率</span>
+            <span data-lang="en">Campaign target achievement</span>
+            <small data-lang="zh">跨境电商平台</small>
+            <small data-lang="en">Cross-border e-commerce</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">🚀 Selected Work</div>
+          <h2 class="section-title" data-lang="zh">代表项目</h2>
+          <h2 class="section-title" data-lang="en">Selected projects</h2>
+          <div class="section-line"></div>
+          <p class="section-desc" data-lang="zh">我最想带去 AI 团队的，是这几类能力：落地、增长、实验、用户感知。</p>
+          <p class="section-desc" data-lang="en">These projects reflect the strengths I’d bring into an AI team: execution, growth, experimentation, and user sensitivity.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card project-card">
+            <div class="project-top"><span class="project-badge">AI Execution</span></div>
+            <div class="project-body">
+              <h3 data-lang="zh">AI 数字人直播项目</h3>
+              <h3 data-lang="en">AI Digital Human Livestream</h3>
+              <p data-lang="zh">推动 AI 数字人项目从试点到迭代上线，覆盖人物训练、脚本模板、内容供给和流程工具化。重点不是 demo，而是可持续使用。</p>
+              <p data-lang="en">I helped move an AI digital-human initiative from pilot to repeatable launch across scripting, content supply, and workflow tooling—with a focus on sustained use, not just demos.</p>
+              <div class="pill-row"><span class="pill">+30% efficiency</span><span class="pill">+60% output</span></div>
+            </div>
+          </article>
+
+          <article class="card project-card">
+            <div class="project-top"><span class="project-badge">Growth</span></div>
+            <div class="project-body">
+              <h3 data-lang="zh">用户入口与资源位优化</h3>
+              <h3 data-lang="en">Entry Point Optimization</h3>
+              <p data-lang="zh">长期负责 Push、搜索、列表页和弹窗等关键入口，持续优化用户先看到什么、在哪里点击、为什么转化。</p>
+              <p data-lang="en">I owned key entry points such as Push, Search, List Page, and Pop-up flows, optimizing what users see first and how they move toward conversion.</p>
+              <div class="pill-row"><span class="pill">Activation</span><span class="pill">Conversion</span></div>
+            </div>
+          </article>
+
+          <article class="card project-card">
+            <div class="project-top"><span class="project-badge">Experimentation</span></div>
+            <div class="project-body">
+              <h3 data-lang="zh">实验驱动的页面优化</h3>
+              <h3 data-lang="en">Experiment-Led Optimization</h3>
+              <p data-lang="zh">围绕活动首页和落地页持续做 A/B Testing、表达优化和路径调整，用更快的实验找到更有效的用户路径。</p>
+              <p data-lang="en">I ran ongoing A/B testing and conversion-flow optimization for campaign pages, using fast experiments to find better user paths.</p>
+              <div class="pill-row"><span class="pill">+23% CVR</span><span class="pill">Iteration</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">💼 Experience</div>
+          <h2 class="section-title" data-lang="zh">经历</h2>
+          <h2 class="section-title" data-lang="en">Experience</h2>
+          <div class="section-line"></div>
+          <p class="section-desc" data-lang="zh">我的经历主线是平台产品、增长优化，以及 AI 项目的真实落地。</p>
+          <p class="section-desc" data-lang="en">The common thread across my experience is platform products, growth optimization, and real-world AI execution.</p>
+        </div>
+
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="timeline-date">2025.07 — Now</div>
+            <div>
+              <h3 data-lang="zh">Trip.com</h3>
+              <h3 data-lang="en">Trip.com</h3>
+              <div class="company" data-lang="zh">产品运营 · 上海</div>
+              <div class="company" data-lang="en">Product Operations · Shanghai</div>
+              <ul data-lang="zh">
+                <li>负责 Push、列表页、弹窗等关键入口的分配与优化，推动打开率与点击率提升。</li>
+                <li>参与 AI 数字人直播项目，从试点到上线推进内容供给、脚本模板与流程工具化。</li>
+                <li>围绕用户入口、内容效率和转化链路持续做实验与迭代。</li>
+              </ul>
+              <ul data-lang="en">
+                <li>Owned key entry points across Push, list pages, and pop-up flows, improving open and click performance.</li>
+                <li>Supported the AI digital-human livestream rollout from pilot to launch across content supply, scripting, and workflow tooling.</li>
+                <li>Drove ongoing iteration around user entry, content efficiency, and conversion paths.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-date">2025.01 — 2025.06</div>
+            <div>
+              <h3 data-lang="zh">Bigo Live</h3>
+              <h3 data-lang="en">Bigo Live</h3>
+              <div class="company" data-lang="zh">海外运营 · 北欧市场</div>
+              <div class="company" data-lang="en">Global Operations · North Europe market</div>
+              <ul data-lang="zh">
+                <li>负责北欧市场内容生态与增长项目，提升内容供给与区域活跃。</li>
+                <li>通过创作者增长与区域策略优化，带动新作者报名和收入提升。</li>
+              </ul>
+              <ul data-lang="en">
+                <li>Worked on content ecosystem and growth programs in the North Europe market, improving supply and engagement.</li>
+                <li>Improved creator growth and regional performance through focused market operations.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-date">2023.10 — 2024.12</div>
+            <div>
+              <h3 data-lang="zh">ByteDance TikTok Shop</h3>
+              <h3 data-lang="en">ByteDance TikTok Shop</h3>
+              <div class="company" data-lang="zh">活动策略运营 · 上海</div>
+              <div class="company" data-lang="en">Campaign Strategy Operations · Shanghai</div>
+              <ul data-lang="zh">
+                <li>负责站内流量和曝光资源位策略，提升 ROI、CTR 与活动页转化效率。</li>
+                <li>联动产品、设计和数据团队做页面优化、实验迭代和活动资源打法升级。</li>
+                <li>推动整体活动达成率 105%，并带来持续的销售提升。</li>
+              </ul>
+              <ul data-lang="en">
+                <li>Owned onsite traffic and exposure-slot strategy, improving ROI, CTR, and campaign-page conversion.</li>
+                <li>Worked cross-functionally on page optimization, experimentation, and campaign resource strategy.</li>
+                <li>Drove 105% campaign achievement with sustained sales uplift.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-date">2022.02 — 2022.07</div>
+            <div>
+              <h3 data-lang="zh">ByteDance TikTok Shop</h3>
+              <h3 data-lang="en">ByteDance TikTok Shop</h3>
+              <div class="company" data-lang="zh">商家孵化实习生 · 上海</div>
+              <div class="company" data-lang="en">Seller Incubation Intern · Shanghai</div>
+              <ul data-lang="zh">
+                <li>支持 3C 与家居品类商家增长，推动 SKU GMV 翻倍与活动爆发。</li>
+                <li>维护 6000 人商家社群，提升活跃与商家参与度。</li>
+              </ul>
+              <ul data-lang="en">
+                <li>Supported seller growth in 3C and home categories, contributing to GMV uplift and campaign spikes.</li>
+                <li>Managed a 6,000-seller community and improved activation and participation.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="education">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">🎓 Education</div>
+          <h2 class="section-title" data-lang="zh">教育经历</h2>
+          <h2 class="section-title" data-lang="en">Education</h2>
+          <div class="section-line"></div>
+          <p class="section-desc" data-lang="zh">商科、信息系统与国际化学习背景，构成了我连接技术与业务的底层框架。</p>
+          <p class="section-desc" data-lang="en">My education in business, information systems, and international learning shaped how I connect technology with business.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3 data-lang="zh">鹿特丹管理学院（伊拉斯姆斯大学）</h3>
+            <h3 data-lang="en">Rotterdam School of Management, Erasmus University</h3>
+            <p data-lang="zh">商业信息管理硕士</p>
+            <p data-lang="en">MSc Business Information Management</p>
+            <div class="pill-row">
+              <span class="pill">荷兰</span>
+              <span class="pill">商业信息管理</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3 data-lang="zh">香港中文大学商学院</h3>
+            <h3 data-lang="en">CUHK Business School</h3>
+            <p data-lang="zh">商科基础，兼具管理与技术交叉视角。</p>
+            <p data-lang="en">Business foundation with cross-disciplinary exposure to management and technology.</p>
+            <div class="pill-row">
+              <span class="pill">商科</span>
+              <span class="pill">技术</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">🛠️ Tools</div>
+          <h2 class="section-title" data-lang="zh">工具和语言</h2>
+          <h2 class="section-title" data-lang="en">Tools & Languages</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="skills">
+          <span>SQL</span>
+          <span>Python</span>
+          <span>Power BI</span>
+          <span>Tableau</span>
+          <span>Experimentation</span>
+          <span>Funnel Analysis</span>
+          <span>Figma</span>
+          <span>Excel / VBA</span>
+          <span data-lang="zh">英语 · IELTS 7.5</span>
+          <span data-lang="en">English · IELTS 7.5</span>
+          <span data-lang="zh">中文 · 母语</span>
+          <span data-lang="en">Chinese · Native</span>
+          <span data-lang="zh">荷兰语 · B1</span>
+          <span data-lang="en">Dutch · B1</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact">
+          <h2 data-lang="zh">Let’s connect.</h2>
+          <h2 data-lang="en">Let’s connect.</h2>
+          <div class="contact-grid">
+            <a class="contact-box" href="mailto:yingqi.jiadaisy@gmail.com">
+              <small>EMAIL</small>
+              <span>yingqi.jiadaisy@gmail.com</span>
+            </a>
+            <a class="contact-box" href="https://www.linkedin.com/in/daisy-yingqi-jia/" target="_blank" rel="noreferrer">
+              <small>LINKEDIN</small>
+              <span>linkedin.com/in/daisy-yingqi-jia/</span>
+            </a>
+            <a class="contact-box" href="tel:+8613145994418">
+              <small>PHONE / WECHAT</small>
+              <span>+86 131-4599-4418</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 Daisy Jia</footer>
+
+  <script>
+    const body = document.body;
+    const buttons = document.querySelectorAll('[data-switch]');
+    function setLang(lang){
+      body.classList.toggle('lang-en', lang === 'en');
+      buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.switch === lang));
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+    }
+    buttons.forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.switch)));
+    setLang('en');
+  </script>
+</body>
+</html>
